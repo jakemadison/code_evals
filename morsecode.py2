@@ -1,0 +1,47 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+CODE = {'A': '.-',     'B': '-...',   'C': '-.-.',
+        'D': '-..',    'E': '.',      'F': '..-.',
+        'G': '--.',    'H': '....',   'I': '..',
+        'J': '.---',   'K': '-.-',    'L': '.-..',
+        'M': '--',     'N': '-.',     'O': '---',
+        'P': '.--.',   'Q': '--.-',   'R': '.-.',
+     	'S': '...',    'T': '-',      'U': '..-',
+        'V': '...-',   'W': '.--',    'X': '-..-',
+        'Y': '-.--',   'Z': '--..',
+
+        '0': '-----',  '1': '.----',  '2': '..---',
+        '3': '...--',  '4': '....-',  '5': '.....',
+        '6': '-....',  '7': '--...',  '8': '---..',
+        '9': '----.'
+        }
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        message = line.split(' ')
+
+        output = ''
+
+        for each in message:
+            letter = [k for k, v in CODE.items() if v == each]
+            if letter:
+                output += str(letter[0])
+            else:
+                output += ' '
+
+        print output
+
+
+if __name__ == '__main__':
+    main()
+
+

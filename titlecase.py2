@@ -1,0 +1,35 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def to_title(word):
+    res = ''
+    for i, e in enumerate(word):
+        if i == 0 and e.isalpha():
+            res += e.upper()
+        else:
+            res += e
+    return res
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        words = line.split(' ')
+
+        for e in words:
+            print to_title(e),
+
+        print
+
+
+if __name__ == '__main__':
+    main()
+
+

@@ -1,0 +1,54 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+REF = {'1': 'I', '5': 'V', '10': 'X', '50': 'L', '100': 'C', '500': 'D', '1000': 'M'}
+
+
+def main():
+
+    operators = [1000, 500, 100, 50, 10, 5, 1]
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        n = int(line)
+        output = []
+
+        for each in operators:
+            res = n / each
+
+            if res:
+
+                if 40 <= n <= 49:
+                    output.append('XL')
+                    n -= 40
+                elif 90 <= n <= 99:
+                    output.append('XC')
+                    n -= 90
+                elif n == 9:
+                    output.append('IX')
+                    break
+                elif n == 4:
+                    output.append('IV')
+                    break
+                elif 900 <= n <= 999:
+                    output.append('CM')
+                    n -= 900
+                elif 400 <= n <= 499:
+                    output.append('CD')
+                    n -= 400
+
+                else:
+                    output.append(REF[str(each)]*res)
+                    n %= each
+
+        print ''.join(output)
+
+
+if __name__ == '__main__':
+    main()
+
+

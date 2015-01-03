@@ -1,0 +1,21 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+    for line in fileinput.input():
+        line = line.strip()
+
+        if not line:
+            continue
+
+        x = line.split(' ')
+        x.sort(key=float)
+
+        for e in x:
+            print e,
+        print
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,48 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def get_step(n):
+
+    n = str(n)
+    digits = [int(x) for x in n]
+
+    total = 0
+    for each in digits:
+        total += each**2
+
+    return total
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        if line == '1':
+            print 1
+            continue
+
+        trial_path = []
+
+        while True:
+            num = get_step(line)
+            if num == 1 or num in trial_path:
+                break
+            else:
+                trial_path.append(num)
+                line = num
+
+        if num == 1:
+            print 1
+        else:
+            print 0
+
+
+if __name__ == '__main__':
+    main()
+
+

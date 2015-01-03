@@ -1,0 +1,140 @@
+__author__ = 'jmadison'
+
+import fileinput
+import itertools
+
+
+# criteria for winning: find the platform with the FEWEST number of issues
+# that still wins enough votes (>= 270 votes - given by votes line in state info)
+# after finding fewest # of issues possible to win, test everything at that level
+# for which has the lowest cost.  then that's our winner.  output alphabetical.
+
+def check_state(state, platform):
+
+    votes_available = sum([v for k, v in state[1].items() if k != 'Votes'])
+    votes_gained = 0
+
+    for k, v in state[1].items():
+        if k in platform:
+            votes_gained += v
+
+    # print 'votes: ', votes_gained, votes_available
+    take_away = (float(votes_gained)/float(votes_available))*100
+
+    if take_away >= 51:
+        return state[1]['Votes']
+    else:
+        return 0
+
+
+def score_platform(platform, states):
+
+    total_votes = 0
+
+    #okay, so I could brute force this... every single combination of every n length
+    #calculate the total score for that platform in terms of winning votes
+    #keep the highest score, with the least cost (output alphabetical order!)
+    # print platform
+    for each in states.items():
+        total_votes += check_state(each, platform)
+
+    # for each state in states, using platform, determine if we win the state.
+    # print 'total: ', total_votes
+    return total_votes
+
+
+def gen_issue_combinations(issue_vs_cost):
+
+    issues = issue_vs_cost.keys()
+    length = len(issues)
+    current_length = 1
+
+    while current_length <= length:
+        gen_issues = (x for x in itertools.combinations(issue_vs_cost.keys(), current_length))
+
+        for each in gen_issues:
+            yield each
+
+        current_length += 1
+
+
+def determine_winner(winners, issue_vs_cost):
+
+    winners = [list(w) for w in winners]
+
+    results = []
+    for w in winners:
+        temp = []
+        cost = [v for k, v in issue_vs_cost.items() if k in w]
+        temp.append([cost])
+        temp.append([w])
+        results.append(temp)
+    results.sort(key=lambda x: x[0])
+    return results[0]
+
+
+# @profile
+def main():
+
+    issue_vs_cost = {}
+    # states = {'maine': {'spending': 10, 'jobs': 5}, }
+    states = {}
+    section = 0
+
+    for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+
+        if not line:
+            section += 1
+            continue
+
+        if section == 0:
+            number_issues = int(line.split(' ')[-1])
+            continue
+
+        if section == 1:
+            issue, cost = line.split(': ')
+            issue_vs_cost[issue] = int(cost)
+            continue
+
+        if ':' not in line:
+            name = line
+            states[name] = {}
+
+        else:
+            issue, value = line.split(': ')
+            states[name][issue] = int(value)
+
+    # finished building information from source. Processing:
+
+    possible_platforms = gen_issue_combinations(issue_vs_cost)
+
+    winners = []
+
+    for platform in possible_platforms:
+
+        print platform,
+
+        if len(winners) > 0 and len(platform) > len(winners[-1]):
+            break
+
+        returns = score_platform(platform, states)
+
+        print returns
+        if returns >= 270:
+            winners.append(platform)
+
+    print
+    print 'winners: ', winners
+    win = determine_winner(winners, issue_vs_cost)
+    win.sort()
+    print win
+
+    for each in win[1]:
+        each[0]
+
+
+if __name__ == '__main__':
+    main()
+

@@ -1,0 +1,46 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        letter_count = {}
+        line = line.lower()
+
+        # pull out count of letters in line
+        for each in line:
+            if each.isalpha():
+                if letter_count.has_key(each):
+                    letter_count[each] += 1
+                else:
+                    letter_count[each] = 1
+
+        # make sure highest occurring letter -> lowest occurring letter
+        result = sorted(letter_count.items(), key=lambda x: x[1], reverse=True)
+
+        # assign beauty to letters:
+        final = {}
+        beauty = 26
+        for each in result:
+            final[each[0]] = beauty
+            beauty -= 1
+
+        # calculate total value of string
+        total = 0
+        for each in line:
+            if each.isalpha():
+                total += final[each]
+
+        print total
+
+
+if __name__ == '__main__':
+    main()
+
+

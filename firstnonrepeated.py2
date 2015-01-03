@@ -1,0 +1,26 @@
+__author__ = 'jmadison'
+
+import fileinput
+from collections import Counter
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        cnt = [k for k, v in Counter(line).items() if v == 1]
+
+        for each in line:
+            if each in cnt:
+                print each
+                break
+
+
+if __name__ == '__main__':
+    main()
+

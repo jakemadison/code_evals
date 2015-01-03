@@ -1,0 +1,36 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def fizzbuzz(n, fizz=3, buzz=5):
+    """take in a number, pop out a fizz, buzz, or n"""
+    if n % fizz == 0 and n % buzz == 0:
+        return 'FB'
+
+    if n % fizz == 0:
+        return 'F'
+
+    if n % buzz == 0:
+        return 'B'
+
+    return n
+
+
+def main():
+    for line in fileinput.input():
+
+        try:
+            f, b, length = line.split(' ')
+
+        except ValueError:
+            continue
+            
+        for i in xrange(1, int(length)+1):
+            print fizzbuzz(i, int(f), int(b)),
+
+        print '\n'
+
+if __name__ == '__main__':
+    main()
+    print "done!"

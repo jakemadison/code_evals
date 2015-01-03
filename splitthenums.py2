@@ -1,0 +1,44 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        nums, pattern = line.split(' ')
+
+        start = 0
+        end = 0
+
+        translated = []
+
+        for each in pattern:  # translate from pattern into a sensible list with operands
+            if each in ('+', '-'):
+                translated.append(nums[start:end])
+                translated.append(each)
+                start = end
+            else:
+                end += 1
+        translated.append(nums[start:end])
+
+        # this feels suuuuper hacky.
+        total = int(translated[0])
+        for i, each in enumerate(translated[1:]):
+            if each == '-':
+                total -= int(translated[i+2])
+            elif each == '+':
+                total += int(translated[i+2])
+
+        print total
+
+
+if __name__ == '__main__':
+    main()
+
+

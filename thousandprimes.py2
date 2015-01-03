@@ -1,0 +1,37 @@
+__author__ = 'jmadison'
+
+
+# determine if number is prime
+def is_prime(n):
+    limit = int(n ** 0.5)+1
+    for num in range(2, limit):
+        if n % num == 0:
+            return False
+
+    return True
+
+
+# generator for getting primes
+def gen_primes():
+    start = 2
+    while True:
+        if is_prime(start):
+            yield start
+        start += 1
+
+
+def main(n):
+
+    total = 0
+    gen = gen_primes()
+
+    while n:
+        total += next(gen)
+        n -= 1
+
+    print total
+
+
+if __name__ == '__main__':
+    main(1000)
+    # print 'done!'

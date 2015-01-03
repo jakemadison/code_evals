@@ -1,0 +1,11 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+    for lines in fileinput.input():
+        print lines.lower().strip()
+
+if __name__ == '__main__':
+    main()

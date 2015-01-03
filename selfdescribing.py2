@@ -1,0 +1,30 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        d = {k: v for (k, v) in enumerate(line)}
+        r = ''
+
+        for k, v in d.items():
+            t = [e for e in d.values() if int(e) == k]
+            r += str(len(t))
+
+        if r == line:
+            print 1
+        else:
+            print 0
+
+
+if __name__ == '__main__':
+    main()
+
+

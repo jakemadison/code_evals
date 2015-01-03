@@ -1,0 +1,131 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# track = ['#########_##',
+#          '########C_##',
+#          '#######_####',
+#          '######_#C###',
+#          '#######_C###',
+#          '#######_####',
+#          '######C#_###',
+#          '######C_####',
+#          '#######_####',
+#          '#######_####']
+
+track = []
+# test_paths = []
+trials = []
+
+
+
+#index, [position: [move1, move2]], [position: [move], [move2]]
+# this could probably be refactored out
+# so that we only check possible moves for every possible move
+# only once, and then refer to that list each time, instead of re-processing
+def get_possible_moves(section, current_position):
+
+    possible_moves = []
+    checkpoint = section.find('C')
+    gate = section.find('_')
+    if checkpoint > 0 and abs(checkpoint-current_position) <= 1:
+        possible_moves.append(checkpoint)
+
+    if gate > 0 and abs(gate-current_position) <= 1:
+        possible_moves.append(gate)
+
+    return possible_moves
+
+
+def traverse_tracksection(position, index, score, end, path_trial=[]):
+
+    path_trial = path_trial + [position]
+
+    if track[index][position] == '_':
+        score += 1
+    elif track[index][position] == 'C':
+        score += 2
+
+    # check if we are at the last section
+    if index == end:
+        # test_paths.append(path_trial)
+        temp = []
+        temp.append(score)
+        temp.append(path_trial)
+        trials.append(temp)
+        return path_trial
+
+    # paths = []
+    # otherwise, get our possible moves:
+
+    poss_moves = get_possible_moves(track[index+1], position)
+
+    for each in poss_moves:
+        traverse_tracksection(each, index+1, score, end, path_trial)
+    #     if newpaths is not None:
+    #         paths.append(newpaths)
+    # return paths
+
+
+
+def get_winner():
+
+    trials.sort(reverse=True)
+    return trials[0][1]
+
+
+
+def draw_path(winner):
+    previous_position = winner[0]
+
+    #print first move here..
+
+    render_track = list(track[0])
+    render_track[previous_position] = '|'
+    print ''.join(render_track)
+
+
+    for i, each in enumerate(winner[1:]):
+        render_track = list(track[i+1])
+
+        if each == previous_position:
+            move = '|'
+        elif each < previous_position:
+            move = '/'
+        elif each > previous_position:
+            move = '\\'
+
+        render_track[each] = move
+
+        print ''.join(render_track)
+        previous_position = each
+
+
+
+
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+        track.append(line)
+
+    starting_point = track[0].find('_')
+    path_trial = []
+
+    end = len(track)-1
+
+    traverse_tracksection(starting_point, 0, 0, end, path_trial)
+
+    winner = get_winner()
+
+    draw_path(winner)
+
+
+
+if __name__ == '__main__':
+    main()

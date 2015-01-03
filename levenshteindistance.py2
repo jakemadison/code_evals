@@ -1,0 +1,135 @@
+__author__ = 'jmadison'
+
+import fileinput
+import collections
+
+
+sourcelist = []
+
+
+def compute_distance(source, target):
+
+    source_len = len(source) + 1
+    target_len = len(target) + 1
+
+    # on to the calc:
+    the_matrix = [[0] * target_len for x in range(source_len)]
+
+    for i in xrange(source_len):
+        the_matrix[i][0] = i
+
+    for i in xrange(target_len):
+        the_matrix[0][i] = i
+
+    for x in xrange(1, source_len):
+        for y in xrange(1, target_len):
+
+            delete = the_matrix[x-1][y] + 1
+            insert = the_matrix[x][y-1] + 1
+            sub = the_matrix[x-1][y-1]
+
+            if source[x-1] != target[y-1]:
+                sub += 1
+
+            the_matrix[x][y] = min(delete, insert, sub)
+
+    distance = the_matrix[source_len-1][target_len-1]
+    # print source, target, distance
+
+    if distance == 1:
+        return target
+    else:
+        return None
+
+
+def pre_distance_check(source, target, source_len):
+
+    # let's assume l_distance calculation is expensive.
+    # there are probably some simple checks we can do to avoid it most times:
+    target_len = len(target)
+    len_diff = abs(source_len - target_len)
+
+    if len_diff > 1:
+        return None
+
+    if target_len > 1 and source_len > 1:
+        if source[0] != target[0] and source[-1] != target[-1]:
+            return None
+
+    # subtract everything in s_shorter from s_longer. if number of letters remaining is more than 1, toss it
+    # okay, so maybe this is tripping on repeated letters..?
+    if target_len < source_len:
+        remainder = [x for x in source if x not in target]
+    else:
+        remainder = [x for x in target if x not in source]
+
+    if len(remainder) > 1:
+        return None
+
+    return compute_distance(source, target)
+
+
+def get_friends(word, friends=[]):
+
+    word_len = len(word)
+
+    # get friends of word and put them in a list:
+    for each in sourcelist:
+
+        if each in friends:
+            continue
+
+        friend = pre_distance_check(word, each, word_len)
+
+        if friend:
+            friends.append(friend)
+            get_friends(friend, friends)
+
+    return friends
+
+
+# @profile
+def main():
+
+    # instead of iterating through the giant wordlist more than once...
+    word_list = collections.OrderedDict()
+
+    header = True
+
+    # establish our initial wordlist dict & source list:
+    # probably less footprint loading source into mem than recursively opening a file
+    for line in fileinput.input():
+    # for line in fileinput.input('/home/jmadison/Development/code_evals/testfile'):
+        line = line.strip()
+        if not line:
+            continue
+
+        if line == 'END OF INPUT':
+            header = False
+            continue
+
+        # i think there's a bug with this. maybe only present when sub is first letter
+        # in a title case? why is lower > not_lower?
+        line = line.lower()
+
+        if header:
+            word_list[line] = [line]
+        else:
+            sourcelist.append(line)
+
+    for k in word_list.keys():
+        friends = get_friends(k, word_list[k])
+        word_list[k] = friends
+
+    # finished up, print our values, minus one, because of initial word: (or not?)
+    for k, v in word_list.items():
+        print len(v)
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+

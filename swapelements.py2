@@ -1,0 +1,33 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        nums, moves = line.split(':')
+        nums = nums.strip().split(' ')
+
+        move_list = moves.split(',')
+
+        for move in move_list:
+            fromm, too = move.split('-')
+            fromm, too = int(fromm), int(too)
+            nums[fromm], nums[too] = nums[too], nums[fromm]
+
+        for each in nums:
+            print each,
+
+        print
+
+
+if __name__ == '__main__':
+    main()
+
+

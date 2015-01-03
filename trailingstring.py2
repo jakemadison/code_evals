@@ -1,0 +1,27 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        target, source = line.split(',')
+
+        if source not in target:
+            print 0
+            continue
+
+        if target[-len(source):] == source:
+            print 1
+
+
+if __name__ == '__main__':
+    main()
+

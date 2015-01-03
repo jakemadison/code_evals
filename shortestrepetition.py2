@@ -1,0 +1,50 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def divide_strings(string, divisor):
+
+    length = len(divisor)
+
+    start = 0
+    end = length
+
+    while end <= len(string):
+        if string[start:end] != divisor:
+            return False
+
+        start += length
+        end += length
+
+    return True
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        start = line[0]
+        testline = ''
+        testline += start
+
+        for each in line[1:]:
+
+            if each == start:
+                if divide_strings(line, testline):
+                    print len(testline)
+                    break
+
+            testline += each
+
+        else:
+            print len(line)
+
+
+if __name__ == '__main__':
+    main()
+
+

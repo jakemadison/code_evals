@@ -1,0 +1,30 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        size, array = line.split(';')
+        storage = [None]*int(size)
+
+        for each in array.split(','):
+            each = int(each)
+
+            if storage[each] is None:
+                storage[each] = 1
+            else:
+                print each
+                break
+
+
+if __name__ == '__main__':
+    main()
+

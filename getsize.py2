@@ -1,0 +1,12 @@
+__author__ = 'jmadison'
+
+import os
+import sys
+
+
+def main():
+    print os.path.getsize(sys.argv[1:][0])
+
+
+if __name__ == '__main__':
+    main()

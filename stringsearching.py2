@@ -1,0 +1,92 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        target, sub = line.split(',')
+
+        t_position = 0
+        s_position = 0
+        escape = False
+        wild = False
+
+        # print target, '|', sub, ':',
+
+        # And now for some delicious spaghetti:
+        while t_position < len(target):
+
+            if s_position == len(sub):
+                break
+
+            if sub[s_position] == '*' and escape is False:
+                wild = True
+                s_position += 1
+                if s_position == len(sub):
+                    print 'true'
+                    break
+
+            # this is our hook, start comparing the two:
+            if target[t_position] == sub[s_position] or wild:
+
+                while s_position < len(sub):
+
+                    if sub[s_position] == '\\':
+                        escape = True
+                        s_position += 1
+                        if s_position == len(sub):
+                            print 'true'
+                            break
+
+                    if sub[s_position] == '*' and escape is False:
+                        wild = True
+                        s_position += 1
+                        if s_position == len(sub):
+                            print 'true'
+                            break
+
+                    if s_position == len(sub) or t_position == len(target):
+                        break
+
+                    if target[t_position] != sub[s_position]:
+                        if wild:
+                            t_position += 1
+                            if t_position == len(target):
+                                print 'true'
+                                break
+                            continue
+                        break
+
+                    else:
+                        if wild:
+                            wild = False
+                        s_position += 1
+                        if s_position == len(sub):
+                            print 'true'
+                            break
+
+                        t_position += 1
+
+                else:
+                    print 'true'
+                    break
+
+            t_position += 1
+
+        else:
+            if s_position == len(sub):
+                continue
+            print 'false'
+
+
+if __name__ == '__main__':
+    main()
+

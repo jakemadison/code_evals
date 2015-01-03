@@ -1,0 +1,24 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+    for line in fileinput.input():
+        line = line.strip()
+
+        if not line:
+            continue
+
+        sentence, lookup = line.split(',')
+        x = -1
+
+        for i, e in enumerate(sentence):
+            if e == lookup:
+                x = i
+
+        print x
+
+
+if __name__ == '__main__':
+    main()

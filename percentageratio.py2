@@ -1,0 +1,27 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        total_length = float(len(line))
+
+        lower_chars = [x for x in line if x.isupper()]
+        lower_len = float(len(lower_chars))
+
+        per_lower = lower_len/total_length*100
+
+        print 'lowercase: {:.2f}'.format(100-per_lower), 'uppercase: {:.2f}'.format(per_lower)
+
+
+if __name__ == '__main__':
+    main()
+

@@ -1,0 +1,59 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def query_set(instructions, query, q_type):
+
+    #holy duplicated code, batman.
+    base_value = 0
+    col_change = {}
+    query_value = query.split(' ')[1]
+
+    for instruction in instructions:
+
+        indicator, id_num, value = instruction.split(' ')
+        value = int(value)
+
+        # parallel change, so will not affect total:
+        if instruction[:6] == q_type and id_num != query_value:
+            continue
+
+        # this is a change to the row being queried:
+        elif instruction[:6] == q_type and id_num == query_value:
+            base_value = value
+            col_change = {}
+
+        # in case more than one instruction changes the same row:
+        else:
+            col_change[id_num] = value
+
+    sum_row_changes = sum(col_change.values())
+
+    final_val = base_value*(256 - len(col_change.items()))+sum_row_changes
+    print final_val
+
+
+def main():
+
+    test = []
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+        test.append(line)
+
+    for i, each in enumerate(test):
+        if each[:8] == 'QueryCol':
+            instructions = [e for e in test[:i] if e[:3] == 'Set']
+            query_set(instructions, each, 'SetCol')
+
+        elif each[:8] == 'QueryRow':
+            instructions = [e for e in test[:i] if e[:3] == 'Set']
+            query_set(instructions, each, 'SetRow')
+
+
+if __name__ == '__main__':
+    main()
+
+

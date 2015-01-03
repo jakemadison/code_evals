@@ -1,0 +1,29 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line = line.split(',')
+        nums = [int(x) for x in line]
+
+        l_factor = len(nums)/2
+
+        for each in nums:
+            if nums.count(each) > l_factor:
+                print each
+                break
+        else:
+            print 'None'
+
+
+if __name__ == '__main__':
+    main()
+
+

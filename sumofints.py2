@@ -1,0 +1,19 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    total = 0
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        total += int(line)
+
+    print total
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,23 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    # for line in fileinput.input():
+    #     line = line.strip()
+    #     if not line:
+    #         continue
+
+    line = '40 40 40 40 29 29 29 29 29 29 29 29 57 57 92 92 92 92 92 86 86 86 86 86 86 86 86 86 86'
+
+    nums = line.split(' ')
+
+    x = [y for y in nums if y == nums[0]]
+    print x
+
+if __name__ == '__main__':
+    main()
+
+

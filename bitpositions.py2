@@ -1,0 +1,31 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        n, p1, p2 = line.split(',')
+
+        b_num = '{0:08b}'.format(int(n))
+
+        b_num = b_num[::-1]  # this is kind of a ridiculous part of this challenge.
+                             # "1-based position" means a specific thing.
+                             # If there is uncertainty about the indexing logic,
+                             # that should be indicated/hinted at in the description. (/2cents)
+
+        if b_num[int(p1)-1] == b_num[int(p2)-1]:
+            print 'true'
+        else:
+            print 'false'
+
+
+if __name__ == '__main__':
+    main()
+
+

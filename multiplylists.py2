@@ -1,0 +1,42 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# let's have fun with this one:
+class NewList(list):
+
+    # override multiplication operator
+    def __mul__(self, other):
+        return NewList([int(a)*int(b) for a, b in zip(self, other)])
+
+    # override str out
+    def __str__(self):
+        temp = ''
+        for e in self:
+            temp += str(e)
+            temp += ' '
+        return temp
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        m1, m2 = line.split('|')
+        m1 = m1.strip().split(' ')
+        m2 = m2.strip().split(' ')
+
+        m1 = NewList(m1)
+
+        print m1 * m2
+
+
+if __name__ == '__main__':
+    main()
+
+

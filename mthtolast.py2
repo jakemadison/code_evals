@@ -1,0 +1,27 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line = line.split(' ')
+        m_th = int(line.pop()) - 1  # one-based, so minus one.
+
+        try:
+            print line[::-1][m_th]
+
+        except IndexError:
+            continue
+
+
+if __name__ == '__main__':
+    main()
+

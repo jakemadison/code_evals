@@ -1,0 +1,38 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+
+        line = line.replace(' ', '')
+
+        d = {k: v for (k, v) in enumerate(line)}
+
+        curr = 10
+        for k, v in d.items():
+            count = sum(i == v for i in d.values())
+
+            if count == 1 and int(v) < curr:
+                curr = int(v)
+
+        pos = 0
+        for k, v in d.items():
+            if v == str(curr):
+                pos = k+1
+                break
+
+        print pos
+
+
+if __name__ == '__main__':
+    main()
+
+

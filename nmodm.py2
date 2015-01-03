@@ -1,0 +1,20 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        n, m = line.split(',')
+        n, m = int(n), int(m)
+
+        print n - ((n / m)*m)
+
+
+if __name__ == '__main__':
+    main()

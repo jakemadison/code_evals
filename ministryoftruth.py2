@@ -1,0 +1,53 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# @profile
+def main():
+
+    for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        target, goal = line.split(';')
+
+        target = [t for t in target.split(' ') if t != '']
+        goal = [g for g in goal.split(' ') if g != '']
+        print target, '<--', goal
+
+        for e in target:
+            for g in goal:
+                if g in e:
+                    print g,
+
+
+        end = len(target)
+
+        t_pointer = 0
+        g_pointer = 0
+
+        fixed = []
+
+        # while t_pointer < end:
+        #     if target[t_pointer] == goal[g_pointer]:
+        #
+        #         if g_pointer < len(goal)-1:
+        #             fixed.append(target[t_pointer])
+        #             g_pointer += 1
+        #         else:
+        #             fixed.append('_')
+        #
+        #         t_pointer += 1
+        #     else:
+        #         fixed.append('_')
+        #         t_pointer += 1
+        #
+        # print ''.join(fixed)
+
+
+if __name__ == '__main__':
+    main()
+

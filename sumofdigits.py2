@@ -1,0 +1,17 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+    for line in fileinput.input():
+        total = 0
+        line = line.strip()
+        for e in line:
+            total += int(e)
+
+        print total
+
+
+if __name__ == '__main__':
+    main()

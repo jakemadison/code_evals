@@ -1,0 +1,29 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        l = line.split(',')
+
+        nums = [x for x in l if x.isdigit()]
+        words = [x for x in l if not x.isdigit()]
+
+        if len(nums) == 0 or len(words) == 0:
+            sep = ''
+        else:
+            sep = '|'
+
+        print ','.join(words) + sep + ','.join(nums)
+
+if __name__ == '__main__':
+    main()
+
+

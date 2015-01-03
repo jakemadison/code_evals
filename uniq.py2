@@ -1,0 +1,15 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+    for line in fileinput.input():
+        x = line.strip().split(',')
+        x = list(set(x))
+        x.sort(key=int)
+        print ','.join(x)
+
+
+if __name__ == '__main__':
+    main()

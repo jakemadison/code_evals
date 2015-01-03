@@ -1,0 +1,28 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        words = line.split(' ')
+
+        longest = words[0]
+
+        for each in words:
+            if len(each) > len(longest):
+                longest = each
+
+        print longest
+
+
+if __name__ == '__main__':
+    main()
+
+

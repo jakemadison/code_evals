@@ -1,0 +1,34 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# @profile
+def main():
+
+    up = True
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        out = []
+        for c in line:
+            if c.isalpha():
+                if up:
+                    out.append(c.upper())
+                    up = False
+                else:
+                    out.append(c.lower())
+                    up = True
+            else:
+                out.append(c)
+
+        print ''.join(out)
+
+
+if __name__ == '__main__':
+    main()
+

@@ -1,0 +1,66 @@
+__author__ = 'jmadison'
+
+import fileinput
+from datetime import datetime
+
+total = 0
+
+
+def get_dates(date_range):
+        start, end = date_range.split('-')
+        s1 = datetime.strptime(start, '%b %Y')
+        e1 = datetime.strptime(end, '%b %Y')
+        return s1, e1
+
+
+def compare_dates(date1, date2):
+
+    global total
+
+    s1, e1 = date1[0], date1[1]
+    s2, e2 = date2[0], date2[1]
+
+    if s2 <= e1:
+        s_final = min(s1, s2)
+        e_final = max(e1, e2)
+        return s_final, e_final
+
+    else:
+        total += ((e1.year - s1.year)*12 + (e1.month - s1.month)+1)
+        return s2, e2
+
+
+def main():
+
+    global total
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line = line.split(';')
+        dates = [l.strip() for l in line if l != '']
+
+        # build nested list of dates as actual datetime objects:
+        formatted_dates = [get_dates(each) for each in dates]
+
+        # sort our nested list according to start date:
+        formatted_dates.sort(key=lambda x: x[0])
+
+        date1 = formatted_dates[0]
+
+        for each in formatted_dates[1:]:
+            date2 = each
+            date1 = compare_dates(date1, date2)
+
+        total += ((date1[1].year - date1[0].year)*12 + (date1[1].month - date1[0].month)+1)
+
+        print total/12
+        total = 0
+
+
+if __name__ == '__main__':
+    main()
+
+

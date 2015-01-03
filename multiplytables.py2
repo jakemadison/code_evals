@@ -1,0 +1,25 @@
+__author__ = 'jmadison'
+
+
+def main():
+
+    for x in xrange(1, 13):
+        for e in xrange(1, 13):
+
+            if x < 10 and e == 1:
+                print '',
+
+            space = ' '*(3 - len(str((e+1)*x)))
+
+            # if x >= 10 and e == 1:
+            #     space = space[1:]
+
+            if e == 12:
+                space = ''
+
+            print str(e*x) + space,
+        print
+
+
+if __name__ == '__main__':
+    main()

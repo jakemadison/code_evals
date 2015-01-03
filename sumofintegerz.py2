@@ -1,0 +1,38 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line = [int(x.strip()) for x in line.split(',')]
+
+        winner = None
+        bounds = len(line)
+
+        for i in range(bounds):
+            for j in range(bounds+1):
+
+                test = line[i:j]
+
+                if test:
+                    trial = sum(line[i:j])
+
+                    if not winner:
+                        winner = trial
+
+                    if trial > winner:
+                        winner = trial
+
+        print winner
+
+if __name__ == '__main__':
+    main()
+

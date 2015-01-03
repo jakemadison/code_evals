@@ -1,0 +1,78 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+class Node(object):
+
+    def __init__(self, n):
+        self.me = n
+        self.left = None
+        self.right = None
+
+    def insert(self, n):
+
+        if n < self.me:
+            if self.left is None:
+                self.left = Node(n)
+            else:
+                self.left.insert(n)
+        elif n > self.me:
+            if self.right is None:
+                self.right = Node(n)
+            else:
+                self.right.insert(n)
+
+    def get_lineage(self, target, line=[]):
+
+        line.append(self.me)  # I guess self should be an ancestor
+
+        if target == self.me:
+            return line
+        elif target < self.me:
+            # line.append(self.me)
+            return self.left.get_lineage(target, line)
+        elif target > self.me:
+            # line.append(self.me)
+            return self.right.get_lineage(target, line)
+
+
+def construct_tree():
+    root = Node(30)
+    nodes = [8, 52, 3, 20, 10, 29]
+
+    for n in nodes:
+        root.insert(n)
+
+    return root
+
+
+def get_lowest_ancestor(root, target1, target2):
+    x = root.get_lineage(target1, [])
+    y = root.get_lineage(target2, [])
+
+    z = [i for i in x if i in y]
+
+    return z  # LCA is not min(z), it's farthest from root
+
+
+# @profile
+def main():
+
+    root = construct_tree()
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        target1, target2 = line.split(' ')
+        target1, target2 = int(target1), int(target2)
+
+        print get_lowest_ancestor(root, target1, target2)[-1]
+
+
+if __name__ == '__main__':
+    main()
+

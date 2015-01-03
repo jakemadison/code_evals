@@ -1,0 +1,11 @@
+__author__ = 'jmadison'
+
+
+def main():
+    l = [x for x in xrange(1, 100) if x % 2 != 0]
+    for i in l:
+        print i
+
+
+if __name__ == '__main__':
+    main()

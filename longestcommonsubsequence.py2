@@ -1,0 +1,60 @@
+__author__ = 'jmadison'
+
+import fileinput
+import itertools
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/lcs3'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        s1, s2 = line.split(';')
+
+        # strip out anything not in s2
+        contenders = ''.join([e for e in s1 if e in s2])
+
+        cnt = 1
+        length = len(contenders)
+
+        final = []
+
+        while cnt < length:
+
+            winner = []
+            gen_s1_combinations = (combs for combs in itertools.combinations(contenders, cnt))
+
+            for e in gen_s1_combinations:
+
+                #strip out everything in s2 which is not in our trial here to lighten # of iterations in gen.
+                s2_contenders = [l for l in s2 if l in e]
+
+                gen_s2_combinations = (i for i in itertools.combinations(s2_contenders, cnt))
+
+                for i in gen_s2_combinations:
+                    if i == e:
+                        winner = i
+                        # print 'winner! ', winner
+                        final = winner
+                        # cnt += 1
+                        break
+                else:
+                    # cnt = length
+                    # break
+                    pass
+
+                if winner:
+                    break
+
+            cnt += 1
+
+        print ''.join(final).strip()
+
+
+if __name__ == '__main__':
+    main()
+

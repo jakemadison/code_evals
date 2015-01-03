@@ -1,0 +1,22 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def get_fib(n):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    r = get_fib(n-1) + get_fib(n-2)
+    return r
+
+
+def main():
+    for line in fileinput.input():
+        n = int(line.strip())
+        print get_fib(n)
+
+
+if __name__ == '__main__':
+    main()

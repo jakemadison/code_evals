@@ -1,0 +1,41 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def ugly_cycle_detection(l):
+    t_path = []
+    t = 0
+
+    end = len(l)
+
+    while t < end:
+        if l[t] not in t_path:
+            t_path.append(l[t])
+
+        else:
+            if l[t:t+len(t_path)] == t_path[t_path.index(l[t]):]:
+                return t_path[t_path.index(l[t]):]
+        t += 1
+    else:
+        return False
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        path = line.split(' ')
+
+        # i'm not sure floyd's is going to work here.. since cycle does not infinitely repeat..
+        print ' '.join(ugly_cycle_detection(path))
+
+
+if __name__ == '__main__':
+    main()
+

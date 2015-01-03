@@ -1,0 +1,43 @@
+__author__ = 'jmadison'
+
+import fileinput
+from itertools import combinations as comb
+
+
+# @profile
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line, value = line.split(';')
+        line = [int(x) for x in line.split(',')]
+        value = int(value)
+
+        pairs = []
+        for c in comb(line, 2):
+            if sum(c) == value:
+                pairs.append(c)
+
+        if not pairs:
+            print 'NULL'
+            continue
+
+        pairs.sort(key=lambda y: y[0])
+
+        # readability counts..
+        # pairs_formatted = [','.join([str(x) for x in e]) for e in pairs]
+
+        pairs_formatted = []
+        for each in pairs:
+            pairs_formatted.append(','.join([str(x) for x in each]))
+
+        print ';'.join(pairs_formatted)
+
+
+if __name__ == '__main__':
+    main()
+

@@ -1,0 +1,20 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        if int(line) % 2 == 0:
+            print 1
+        else:
+            print 0
+
+
+if __name__ == '__main__':
+    main()

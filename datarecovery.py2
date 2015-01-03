@@ -1,0 +1,44 @@
+__author__ = 'jmadison'
+
+import fileinput
+from collections import Counter
+
+
+def main():
+
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        message, hints = line.split(';')
+        message = message.split(' ')
+        hints = hints.split(' ')
+
+        output = []
+
+        cnt = 1
+
+        while cnt <= len(message):
+            try:
+                output.append(message[hints.index(str(cnt))])
+            except ValueError:
+                output.append('*')  # remember the place of our missing val
+            finally:
+                cnt += 1
+
+        # must use Counters so we don't trip over duplicates
+        remaining = list((Counter(message) - Counter(output)).elements())
+
+        if remaining:
+            output[output.index('*')] = remaining[0]
+        else:
+            del output[output.index('*')]
+
+        print ' '.join(output)
+
+
+if __name__ == '__main__':
+    main()
+
+

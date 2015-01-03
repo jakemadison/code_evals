@@ -1,0 +1,22 @@
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def main():
+    for line in fileinput.input():
+        line = line.strip()
+        a, b = line.split(';')
+        a, b = a.split(','), b.split(',')
+        r = set(a).intersection(set(b))
+
+        if len(r) == 0:
+            print
+            continue
+
+        r = sorted(list(r), key=int)
+        print ','.join(r)
+
+
+if __name__ == '__main__':
+    main()
