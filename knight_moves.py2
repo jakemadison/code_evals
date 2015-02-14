@@ -1,0 +1,59 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def main():
+
+    x_coordinates = range(1, 9)
+    y_coordinates = range(1, 9)
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        c = line[0]
+        n = line[1]
+
+        x = ord(c)-96
+        y = int(n)
+
+        moves = [(-2, 1), (2, 1), (2, -1), (-2, -1), (-1, 2), (1, 2), (1, -2), (-1, -2)]
+        potential_moves = []
+
+        for each_move in moves:
+
+            move_x = (x+each_move[0]) - 1
+            move_y = (y+each_move[1]) - 1
+
+            if move_x < 0 or move_y < 0:
+                continue
+
+            if move_x > len(x_coordinates) - 1 or move_y > len(y_coordinates) - 1:
+                continue
+
+            position = x_coordinates[move_x], y_coordinates[move_y]
+            potential_moves.append(chr(position[0]+96)+str(position[1]))
+
+        potential_moves.sort()
+        print ' '.join(potential_moves)
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
