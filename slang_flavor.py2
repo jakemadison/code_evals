@@ -1,0 +1,56 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def slang_array_generator(n):
+
+    slang_array = [', yeah!', ', this is crazy, I tell ya.', ', can U believe this?',
+           ', eh?', ', aw yea.', ', yo.', '? No way!', '. Awesome!']
+
+    slang_counter = 0
+
+    while n > 0:
+        n -= 1
+        yield slang_array[slang_counter]
+
+        if slang_counter + 1 == len(slang_array):
+            slang_counter = 0
+
+        slang_counter += 1
+    else:
+        raise StopIteration
+
+
+def main():
+
+    triggers = ['.', '!', '?']
+
+    for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        final_line = []
+        line_words = line.split(' ')
+
+        for each in slang_array_generator(10):
+            print each
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
