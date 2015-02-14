@@ -1,0 +1,40 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def process_word(word):
+
+    word_output = []
+
+    if len(word) == 1 or len(word) == 0:
+        return word
+
+    test_letter = word[0]
+    word_output.append(test_letter)
+
+    for letter in word[1:]:
+        # print letter
+        if letter != test_letter:
+            word_output.append(letter)
+        test_letter = letter
+
+    return ''.join(word_output)
+
+
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        processed_line = process_word(line)
+        # print '---'
+        # print line
+        print processed_line
+
+if __name__ == '__main__':
+    main()
