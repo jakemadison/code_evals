@@ -1,0 +1,66 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+number_map = ['-**----*--***--***---*---****--**--****--**---**--',
+              '*--*--**-----*----*-*--*-*----*-------*-*--*-*--*-',
+              '*--*---*---**---**--****-***--***----*---**---***-',
+              '*--*---*--*-------*----*----*-*--*--*---*--*----*-',
+              '-**---***-****-***-----*-***---**---*----**---**--',
+              '--------------------------------------------------']
+
+
+def render_line(line):
+
+    def render_number(number):
+
+        offset = number
+
+        start_position = number*4+offset
+        end_position = start_position+5
+
+        for i, section in enumerate(number_map):
+            output_map[i] += section[start_position:end_position]
+
+    output_map = ['', '', '', '', '', '']
+
+    for each_number in line:
+        render_number(int(each_number))
+
+    for each_output_line in output_map:
+        print each_output_line
+
+
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        clean_line = ''.join([c for c in line if c.isdigit()])
+        render_line(clean_line)
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
