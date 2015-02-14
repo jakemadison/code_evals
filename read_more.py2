@@ -1,0 +1,50 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def main():
+
+    add_on_text = '... <Read More>'
+
+    for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        if len(line) <= 55:
+            print line
+            continue
+
+        new_line = line[0:40]
+
+        if ' ' in new_line:
+
+            final_list = []
+            # if space in line, then cut to last word, cutting space off too...
+            for each_word in new_line.split(' '):
+                final_list.append(each_word)
+                test_line = ' '.join(final_list)
+                if len(test_line) > 55:
+                    print ' '.join(test_line[-1])
+
+        print new_line+add_on_text
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
