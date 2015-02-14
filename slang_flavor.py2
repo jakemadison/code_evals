@@ -7,7 +7,7 @@ import fileinput
 def slang_array_generator(n):
 
     slang_array = [', yeah!', ', this is crazy, I tell ya.', ', can U believe this?',
-           ', eh?', ', aw yea.', ', yo.', '? No way!', '. Awesome!']
+                   ', eh?', ', aw yea.', ', yo.', '? No way!', '. Awesome!']
 
     slang_counter = 0
 
@@ -17,6 +17,7 @@ def slang_array_generator(n):
 
         if slang_counter + 1 == len(slang_array):
             slang_counter = 0
+            yield slang_array[slang_counter]
 
         slang_counter += 1
     else:
@@ -27,8 +28,11 @@ def main():
 
     triggers = ['.', '!', '?']
 
-    for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
-    # for line in fileinput.input():
+    skip = True
+    generator = slang_array_generator(1000)
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
         line = line.strip()
         if not line:
             continue
@@ -36,8 +40,19 @@ def main():
         final_line = []
         line_words = line.split(' ')
 
-        for each in slang_array_generator(10):
-            print each
+        for each in line_words:
+            e = each
+            if any(t for t in triggers if t in each):
+                if skip:
+                    skip = False
+                else:
+                    skip = True
+                    e = each[:-1]+generator.next()
+
+            final_line.append(e)
+
+        print ' '.join(final_line)
+        # print '-----'
 
 if __name__ == '__main__':
     main()
