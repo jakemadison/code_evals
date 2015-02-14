@@ -1,0 +1,45 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def main():
+
+    word_map = [(2, "Still in Mama's arms"), (4, "Preschool Maniac"), (11, "Elementary school"),
+                (14, "Middle school"), (18, "High school"), (22, "College"), (65, "Working for the man"),
+                (100, "The Golden Years")]
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        age = int(line)
+
+        if age < 0 or age > 100:
+            print "This program is for humans"
+            continue
+
+        for each_pair in word_map:
+            if each_pair[0] >= age:
+                print each_pair[1]
+                break
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
