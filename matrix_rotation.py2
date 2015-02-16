@@ -2,6 +2,45 @@ __author__ = 'jmadison'
 
 
 import fileinput
+import math
+
+
+def rotate_matrix(matrix):
+
+    rotated_matrix = []
+
+    new_side = []
+    for i in range(0, len(matrix)):
+        for each_side in matrix:
+            new_side.append(each_side[i])
+        # print new_side
+        rotated_matrix.append(new_side[::-1])
+        new_side = []
+
+    return rotated_matrix
+
+
+def build_matrix(line_array):
+
+    output_array = []
+    array_len = len(line_array)
+
+    if array_len == 1:
+        return line_array
+
+    if array_len == 4:
+        output_array.append(line_array[0:2])
+        output_array.append(line_array[2:4])
+        return output_array
+
+    side_length = int(math.sqrt(array_len))
+
+    for i in range(0, side_length):
+        start_pos = i * side_length
+        end_pos = start_pos + side_length
+        output_array.append(line_array[start_pos:end_pos])
+
+    return output_array
 
 
 def main():
@@ -12,7 +51,14 @@ def main():
         if not line:
             continue
 
-    test = 'a b c d'
+        built_array = build_matrix(line.split(' '))
+        processed_array = rotate_matrix(built_array)
+
+        for e in processed_array:
+            print ' '.join(e),
+
+        print
+
 
 if __name__ == '__main__':
     main()
