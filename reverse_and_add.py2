@@ -1,0 +1,42 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def main():
+
+    # for line in fileinput.input(files='./testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        # test_line = '195'
+        reverse = line[::-1]
+        counter = 0
+
+        while line != reverse and counter <= 100:
+            # print counter, line, reverse
+            line = str(int(line)+int(reverse))
+            reverse = line[::-1]
+            counter += 1
+
+        print counter, line
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
