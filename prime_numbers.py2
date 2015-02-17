@@ -1,0 +1,42 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+# determine if number is prime
+def is_prime(n):
+    limit = int(n ** 0.5)+1
+    for num in range(2, limit):
+        if n % num == 0:
+            return False
+
+    return True
+
+
+# generator for getting primes
+def gen_primes(n):
+    start = 2
+    while start <= n:
+        if is_prime(start):
+            yield start
+        start += 1
+    else:
+        raise StopIteration
+
+
+def main():
+    # for line in fileinput.input(files='./testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+    # line = '7622'
+
+        output_array = [str(g) for g in gen_primes(int(line))]
+        print ','.join(output_array)
+
+
+if __name__ == '__main__':
+    main()
