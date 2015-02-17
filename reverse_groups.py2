@@ -1,0 +1,33 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def main():
+    # for line in fileinput.input(files='./testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        input_group, group_size = line.split(';')
+        input_group = input_group.split(',')
+
+        group_size = int(group_size)
+        group_length = len(input_group)
+
+        output = []
+        for i in range(0, group_length, group_size):
+            if i+group_size > group_length:
+                sub_list = input_group[i:group_length]
+            else:
+                sub_list = list(input_group[i:i+group_size])[::-1]
+            for s in sub_list:
+                output.append(s)
+
+        print ','.join(output)
+
+
+if __name__ == '__main__':
+    main()
