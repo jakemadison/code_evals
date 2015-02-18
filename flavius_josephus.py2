@@ -5,9 +5,19 @@ import fileinput
 from itertools import cycle
 
 
+def should_get_killed(i, m):
+    # i is array pos, m is interval
+    if i % m == 0:
+        return True
+    else:
+        return False
+
+
+
+
 def main():
 
-    for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input(files='./testfile'):
     # for line in fileinput.input():
         line = line.strip()
         if not line:
@@ -19,8 +29,17 @@ def main():
     m = int(m)
 
     group_array = range(0, n)
-    for i, x in enumerate(group_array):
-        print i, x
+    kill_list = []
+
+    for i, x in enumerate(group_array, start=1):
+        if i % m == 0:
+            kill_list.append(x)
+    print kill_list
+
+    for i, x in enumerate(group_array, start=1):
+        if i % m == 0:
+            kill_list.append(x)
+    print kill_list
 
 
 if __name__ == '__main__':
