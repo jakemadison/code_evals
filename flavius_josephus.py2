@@ -1,0 +1,40 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+from itertools import cycle
+
+
+def main():
+
+    for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+    line = '10,3'
+    n, m = line.split(',')
+    n = int(n)
+    m = int(m)
+
+    group_array = range(0, n)
+    for i, x in enumerate(group_array):
+        print i, x
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
