@@ -1,0 +1,47 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def main():
+
+    # for line in fileinput.input(files='/home/jmadison/Development/code_evals/testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        jolly_array = [int(x) for x in line.split(' ')]
+
+        len_jolly_array = len(jolly_array)
+
+        if len_jolly_array == 1:
+            print 'Jolly'
+            continue
+
+        output_array = [abs(x - y) for x, y in zip(jolly_array, jolly_array[1:])]
+
+        for i in range(1, len_jolly_array-1):
+            if i not in output_array:
+                print 'Not jolly'
+                break
+        else:
+            print 'Jolly'
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
