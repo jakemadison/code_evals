@@ -1,0 +1,53 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+from collections import deque as d
+
+
+def test_line(source, target):
+
+    d_source = d(source)
+
+    for i in range(len(d_source)):
+        # print d_source, target
+
+        if ''.join(d_source) == target:
+            return True
+
+        d_source.rotate()
+
+    else:
+        return False
+
+
+def main():
+
+    # for line in fileinput.input(files='./testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        target, source = line.split(',')
+
+        if len(target) != len(source):
+            print 'False'
+
+        print test_line(source, target)
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+

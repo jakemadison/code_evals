@@ -2,49 +2,38 @@ __author__ = 'jmadison'
 
 
 import fileinput
-from itertools import cycle
-
-
-def should_get_killed(i, m):
-    # i is array pos, m is interval
-    if i % m == 0:
-        return True
-    else:
-        return False
-
-
 
 
 def main():
 
-    for line in fileinput.input(files='./testfile'):
-    # for line in fileinput.input():
+    # for line in fileinput.input(files='./testfile'):
+    for line in fileinput.input():
         line = line.strip()
         if not line:
             continue
 
-    line = '10,3'
-    n, m = line.split(',')
-    n = int(n)
-    m = int(m)
+        n, m = line.split(',')
+        n = int(n)
+        m = int(m)
 
-    group_array = range(0, n)
-    kill_list = []
+        victims = [x for x in range(n)]
+        kill_list = []
+        i = 1
 
-    for i, x in enumerate(group_array, start=1):
-        if i % m == 0:
-            kill_list.append(x)
-    print kill_list
+        while len(victims):
+            for each_poor_soul in victims:
+                if i % m == 0:
+                    kill_list.append(each_poor_soul)
+                i += 1
 
-    for i, x in enumerate(group_array, start=1):
-        if i % m == 0:
-            kill_list.append(x)
-    print kill_list
+            victims = [v for v in victims if v not in kill_list]
+
+        dead_bodies = [str(corpse) for corpse in kill_list]
+        print ' '.join(dead_bodies)
 
 
 if __name__ == '__main__':
     main()
-
 
 
 
