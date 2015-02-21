@@ -14,7 +14,7 @@ def main():
 
         line = int(line)
 
-
+    start_point = [0]
 
 
 
