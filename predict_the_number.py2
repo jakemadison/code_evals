@@ -1,0 +1,36 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def main():
+
+    for line in fileinput. input(files='./testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line = int(line)
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
