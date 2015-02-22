@@ -4,20 +4,36 @@ __author__ = 'jmadison'
 import fileinput
 
 
+def guard_iteration(door_array):
+    door_array = [not x if i % 2 == 0 else x for i, x in enumerate(door_array, start=1)]
+    door_array = [not x if i % 3 == 0 else x for i, x in enumerate(door_array, start=1)]
+    return door_array
+
+
 def main():
 
-    for line in fileinput. input(files='./testfile'):
-    # for line in fileinput.input():
+    # for line in fileinput. input(files='./testfile'):
+    for line in fileinput.input():
         line = line.strip()
         if not line:
             continue
 
-    line = '3 1'
+        line = line.split(' ')
+        num_doors = int(line[0])
+        iterations = int(line[1])
 
-    line_ = line.split(' ')
+        # init door array
+        door_array = [True for x in range(num_doors)]
 
-    max_len = 0
+        if iterations < 1:
+            print door_array.count(True)
+            continue
 
+        for i in range(iterations-1):
+            door_array = guard_iteration(door_array)
+
+        door_array[-1] = not door_array[-1]
+        print door_array.count(True)
 
 
 if __name__ == '__main__':
