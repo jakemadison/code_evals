@@ -16,7 +16,11 @@ def main():
 
     start_point = [0]
 
-
+    # maybe we can define this as it's position is relative to the number of changes that have happened:
+    # 0 - 1
+    # 01 - 2
+    # 0112 - 4
+    # 01121220 - 8
 
 
 

@@ -1,0 +1,46 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def main():
+
+    # for line in fileinput. input(files='./testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line = int(line)
+
+        coins = [5, 3, 1]
+        num_coins = 0
+
+        while line > 0:
+            if line - coins[0] >= 0:
+                line -= coins[0]
+                num_coins += 1
+            elif line - coins[1] >= 0:
+                line -= coins[1]
+                num_coins += 1
+            else:
+                line -= coins[2]
+                num_coins += 1
+
+        print num_coins
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
