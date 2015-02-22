@@ -1,0 +1,73 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+from itertools import permutations
+
+
+def derive_chain_length(candidate):
+    max_chain_len = 1
+    current_chain = 1
+
+    for each, next_element in zip(candidate, candidate[1:]):
+        if each[-1] == next_element[0]:
+            current_chain += 1
+            if current_chain > max_chain_len:
+                max_chain_len = current_chain
+
+        else:
+            current_chain = 1
+
+    return max_chain_len
+
+
+def main():
+
+    for line in fileinput. input(files='./testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line = 'cjz,tojiv,sgxf,awonm,fcvcjz,tojiv,sgxf,awonm,fcvcjzcjz,tojiv,sgxf'
+
+        line_array = line.split(',')
+
+        if len(line_array) == 1:
+            print 'None'
+            continue
+
+        max_len = 0
+
+        for i, each_permutation in enumerate(permutations(line_array)):
+            chain_length = derive_chain_length(each_permutation)
+            # print each_permutation, chain_length
+            if chain_length == len(line_array):
+                print chain_length
+                break
+            elif chain_length > max_len:
+                max_len = chain_length
+
+        else:
+            if max_len > 1:
+                print max_len
+            else:
+                print 'None'
+
+        break
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
