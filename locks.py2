@@ -5,9 +5,30 @@ import fileinput
 
 
 def guard_iteration(door_array):
-    door_array = [not x if i % 2 == 0 else x for i, x in enumerate(door_array, start=1)]
-    door_array = [not x if i % 3 == 0 else x for i, x in enumerate(door_array, start=1)]
+    door_array = [not x if i % 2 == 0 else x for i, x in enumerate(door_array, start=1)]  # lock every second door
+    door_array = door_array[::-1]  # turn around
+
+    door_array = [not x if i % 3 == 0 else x for i, x in enumerate(door_array, start=1)]  # lock 3rd door
+    door_array = door_array[::-1]  # turn around again.
+
     return door_array
+
+
+def iterate_rounds(num_doors, iterations):
+
+    door_array = [True for x in range(num_doors)]
+
+    if iterations < 1:
+        open_doors = door_array.count(True)
+        return open_doors
+
+    for i in range(iterations-1):
+        door_array = guard_iteration(door_array)
+
+    door_array[-1] = not door_array[-1]
+    door_array[0] = not door_array[0]  # maybe the last iteration has two beats?
+
+    return door_array.count(True)
 
 
 def main():
@@ -22,18 +43,8 @@ def main():
         num_doors = int(line[0])
         iterations = int(line[1])
 
-        # init door array
-        door_array = [True for x in range(num_doors)]
-
-        if iterations < 1:
-            print door_array.count(True)
-            continue
-
-        for i in range(iterations-1):
-            door_array = guard_iteration(door_array)
-
-        door_array[-1] = not door_array[-1]
-        print door_array.count(True)
+        open_door_count = iterate_rounds(num_doors, iterations)
+        print open_door_count
 
 
 if __name__ == '__main__':
