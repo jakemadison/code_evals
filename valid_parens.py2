@@ -1,0 +1,50 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+def parse_line(line):
+
+    len_line = len(line)
+
+    if len_line % 2 != 0:
+        return False
+
+    first_half = line[0:len_line/2]
+    second_half = line[len_line/2:]
+
+    for each, reverse in zip(first_half, second_half[::-1]):
+        if each != reverse:
+            return False
+
+    else:
+        return True
+
+
+def main():
+
+    # for line in fileinput. input(files='./testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        line = line.replace(',', '')
+        print parse_line(line)
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
