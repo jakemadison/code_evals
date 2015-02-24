@@ -15,6 +15,7 @@ def parse_line(line):
     second_half = line[len_line/2:]
 
     for each, reverse in zip(first_half, second_half[::-1]):
+        print each, reverse
         if each != reverse:
             return False
 
@@ -24,14 +25,39 @@ def parse_line(line):
 
 def main():
 
-    # for line in fileinput. input(files='./testfile'):
-    for line in fileinput.input():
+    for line in fileinput. input(files='./testfile'):
+    # for line in fileinput.input():
         line = line.strip()
         if not line:
             continue
 
-        line = line.replace(',', '')
-        print parse_line(line)
+    line = '()[]{}'  # true
+    line = '([)]{}'  # false
+    line = '([]()){}'  # true
+    line = '(([])){}'  # true
+
+    # a_o - 2, b_o - 1,: if a_c before b_c, raise error
+    # generalize:  if a close of any earlier type happens before the close of that earlier character: fail
+
+    # once A has started , then once B has started, we can't accept a closing A before a closing B
+
+    # start with open.  for that piece, any other open is okay. if it is a close it must be of same type.
+    # A: 1, B: 1, C: 0 --
+
+    parens_dict = {'A': 0, 'B': 0, 'C': 0}
+    open_chars = '({['
+    close_chars = ')}]'
+
+    for each_char in line:
+        if each_char in open_chars:
+            parens_dict['A'] += 1
+
+
+
+
+
+
+    print parse_line(line)
 
 
 if __name__ == '__main__':
