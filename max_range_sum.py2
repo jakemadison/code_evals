@@ -22,15 +22,9 @@ def main():
         stock_history = line.split(';')[1]
         stock_history = [int(x) for x in stock_history.split(' ')]
 
-        winner = 0
-
-        for each_window in get_windows(stock_history, no_days):
-            window_sum = sum(each_window)
-
-            if window_sum > winner:
-                winner = window_sum
-
-        print winner
+        window_sums = [sum(w) for w in get_windows(stock_history, no_days)]
+        max_sum = max(window_sums)
+        print max_sum if max_sum > 0 else 0
 
 
 if __name__ == '__main__':
