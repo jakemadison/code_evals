@@ -1,0 +1,50 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+from itertools import islice
+
+
+def get_windows(array, n):
+    window_list = (islice(array, i, None) for i in range(n))
+    return list(zip(*window_list))
+
+
+def main():
+
+    # for line in fileinput.input(files='./testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        no_days = int(line.split(';')[0])
+        stock_history = line.split(';')[1]
+        stock_history = [int(x) for x in stock_history.split(' ')]
+
+        winner = 0
+
+        for each_window in get_windows(stock_history, no_days):
+            window_sum = sum(each_window)
+
+            if window_sum > winner:
+                winner = window_sum
+
+        print winner
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
