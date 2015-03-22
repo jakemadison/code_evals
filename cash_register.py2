@@ -1,0 +1,67 @@
+__author__ = 'jmadison'
+
+
+import fileinput
+
+
+money_buckets = [('PENNY', .01),
+                 ('NICKEL', .05),
+                 ('DIME', .10),
+                 ('QUARTER', .25),
+                 ('HALF DOLLAR', .50),
+                 ('ONE', 1.00),
+                 ('TWO', 2.00),
+                 ('FIVE', 5.00),
+                 ('TEN', 10.00),
+                 ('TWENTY', 20.00),
+                 ('FIFTY', 50.00),
+                 ('ONE HUNDRED', 100.00)]
+
+
+def calculate_change(pp, ch):
+
+    if ch < pp:
+        return ['ERROR']
+    if pp == ch:
+        return ['ZERO']
+
+    total_change = ch - pp
+    payout_hand = []
+
+    for each_bucket in money_buckets[::-1]:
+        while total_change >= each_bucket[1]:
+            payout_hand.append(each_bucket[0])
+            total_change -= each_bucket[1]
+
+    return payout_hand
+
+
+def main():
+
+    # for line in fileinput.input(files='./testfile'):
+    for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        pp = float(line.split(';')[0])
+        ch = float(line.split(';')[1])
+
+        print ','.join(calculate_change(pp, ch))
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
