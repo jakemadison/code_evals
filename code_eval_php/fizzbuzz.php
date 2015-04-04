@@ -7,7 +7,7 @@
  */
 
 
-function process_line($l, $f_div, $b_div) {
+function process_line($l) {
 
     $fizz_array = explode(" ", $l);
     $f_div = $fizz_array[0];
