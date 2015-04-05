@@ -31,27 +31,24 @@ function checkPrime($n) {
 }
 
 
-
 function isPalindrome($n) {
 
+    if (array_reverse(str_split($n)) === str_split($n)) {
+        return true;
+    }
+    else {
+        return false;
+    }
 
 }
 
 
+$start_point = 1000;
+for ($i=$start_point; $i>0; $i--) {
 
-function process_line($line) {
-
-
-    echo "prime: $line\n";
-}
-
-
-$input_file = fopen($argv[1], "r");
-$line_array = explode("\n", fread($input_file, filesize($argv[1])));
-fclose($input_file);
-
-foreach ($line_array as $line) {
-    process_line($line);
-    echo "\n";
+    if (checkPrime($i) and isPalindrome($i)) {
+        print "$i";
+        break;
+    }
 
 }
