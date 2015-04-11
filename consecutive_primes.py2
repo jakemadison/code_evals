@@ -1,7 +1,7 @@
 __author__ = 'jmadison'
 
 import fileinput
-from itertools import islice, permutations
+from itertools import islice, permutations, chain, izip
 
 #
 # def gen_selective_permutations(n):
@@ -10,7 +10,7 @@ from itertools import islice, permutations
 #             raise StopIteration
 #         yield i
 #
-#
+# #
 # def test_circular_equivalence(x, y):
 #
 #     # does x circ== y?
@@ -29,9 +29,9 @@ from itertools import islice, permutations
 #     else:
 #         return False
 
-
+# @profile
 def gen_circular_permutation_set(n):
-    necklace_array = tuple(range(1, n+1))
+    # necklace_array = range(1, n+1)
 
     # instead of straight up permutations, maybe we can come up with some intelligent rules
     # eg: no even numbers can be next to one another.
@@ -41,43 +41,37 @@ def gen_circular_permutation_set(n):
 
     valid_perms = 0
 
-    even_array = necklace_array[1::2]
-    odd_array = necklace_array[::2]
+    # even_array = necklace_array[1::2]
+    # odd_array = necklace_array[::2]
 
-    for i, odd_permutations in enumerate(permutations(odd_array)):
+    odd_array = range(1, n+1, 2)
+    even_array = range(2, n+1, 2)
+
+    for odd_permutations in permutations(odd_array):
 
         if odd_permutations[0] != odd_array[0]:
             break
 
         for even_permutations in permutations(even_array):
             # interleave our permutations here....
-            interleaved = [x for t in zip(odd_permutations, even_permutations) for x in t]
+            # interleaved = [x for t in zip(odd_permutations, even_permutations) for x in t]
+            interleaved = list(chain.from_iterable(izip(odd_permutations, even_permutations)))  # slightly more perf.
+
             if test_prime_connections(interleaved):
                 valid_perms += 1
-
-    # final_set = []
-    # for n in necklace_prime_connected:
-    #     for f in final_set:
-    #         if test_circular_equivalence(n, f):
-    #             break
-    #     else:
-    #         final_set.append(n)
 
     return valid_perms
 
 
+# @profile
 def test_prime_connections(candidate):
-    # constraints: 2 <= N <= 18, so max will be 17+18 = 35.
-    # easier & faster than actually testing for primeness in a function here.
-
-    primes = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
 
     for i, x in enumerate(candidate):
         try:
-            if x + candidate[i+1] not in primes:
+            if x + candidate[i+1] not in prime_set:
                 return False
         except IndexError:
-            if x + candidate[0] not in primes:
+            if x + candidate[0] not in prime_set:
                 return False
     #
     # for x, y in zip(candidate, candidate[1:]):
@@ -118,6 +112,10 @@ def main():
 
 
 if __name__ == '__main__':
+    # constraints: 2 <= N <= 18, so max will be 17+18 = 35.
+    # easier & faster than actually testing for primeness in a function here.
+    primes = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+    prime_set = set(primes)  # set lookup slightly more perf.
     main()
     #
     # for ii in gen_selective_permutations(3):
