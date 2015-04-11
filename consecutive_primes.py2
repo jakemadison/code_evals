@@ -3,18 +3,13 @@ __author__ = 'jmadison'
 import fileinput
 from itertools import islice, permutations
 
-
-# taken straight up from the itertools docs:
-def gen_selective_permutations(n):
-    for i in permutations(range(1, n+1)):
-        if i[0] == 2:
-            raise StopIteration
-        yield i
-
-
-
-
-
+#
+# def gen_selective_permutations(n):
+#     for i in permutations(range(1, n+1)):
+#         if i[0] == 2:
+#             raise StopIteration
+#         yield i
+#
 #
 # def test_circular_equivalence(x, y):
 #
@@ -42,7 +37,23 @@ def gen_circular_permutation_set(n):
     # eg: no even numbers can be next to one another.
     # if the first and last are even, that's also no good.
 
-    necklace_prime_connected = [p for p in gen_selective_permutations(n) if test_prime_connections(p)]
+    # necklace_prime_connected = [p for p in gen_selective_permutations(n) if test_prime_connections(p)]
+
+    valid_perms = 0
+
+    even_array = necklace_array[1::2]
+    odd_array = necklace_array[::2]
+
+    for i, odd_permutations in enumerate(permutations(odd_array)):
+
+        if odd_permutations[0] != odd_array[0]:
+            break
+
+        for even_permutations in permutations(even_array):
+            # interleave our permutations here....
+            interleaved = [x for t in zip(odd_permutations, even_permutations) for x in t]
+            if test_prime_connections(interleaved):
+                valid_perms += 1
 
     # final_set = []
     # for n in necklace_prime_connected:
@@ -52,7 +63,7 @@ def gen_circular_permutation_set(n):
     #     else:
     #         final_set.append(n)
 
-    return len(necklace_prime_connected)
+    return valid_perms
 
 
 def test_prime_connections(candidate):
@@ -98,7 +109,7 @@ def main():
             print 0
             continue
 
-        line = 12
+        line = 14
         print gen_circular_permutation_set(int(line))
         break
         # print gen_circular_permutation_set(n)
