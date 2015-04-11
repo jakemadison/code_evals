@@ -25,18 +25,21 @@ def test_circular_equivalence(x, y):
 
 def gen_circular_permutation_set(n):
     necklace_array = range(1, n+1)
-    necklace_permutation_set = []  # all permutations that are unique (including our circular uniqueness criteria).
+    necklace_prime_connected = []  # all permutations that are unique (including our circular uniqueness criteria).
 
-    for p in permutations(necklace_array):
-        # for each permutation of the necklace array, test to see if its circ equivalent
-        # already exists in our final set:
-        for each_perm in necklace_permutation_set:
-            if test_circular_equivalence(each_perm, p):
+    for p in permutations(necklace_array):  #TODO: make list comp.
+        if test_prime_connections(p):
+            necklace_prime_connected.append(p)
+
+    final_set = []
+    for n in necklace_prime_connected:
+        for f in final_set:
+            if test_circular_equivalence(n, f):
                 break
         else:
-            necklace_permutation_set.append(p)
-            if test_prime_connections(p):
-                yield 1
+            final_set.append(n)
+
+    return len(final_set)
 
 
 def test_prime_connections(candidate):
@@ -67,9 +70,9 @@ def main():
         # uniqueness.  Once you have those candidates, test to see how many of them fit the criteria of
         # "prime linking".  Spit out the number of passing candidates.
 
-        line = 7
+        line = 9
 
-        print sum(gen_circular_permutation_set(int(line)))
+        print gen_circular_permutation_set(int(line))
         break
 
     print 'done'
