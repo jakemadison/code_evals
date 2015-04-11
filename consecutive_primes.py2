@@ -1,0 +1,81 @@
+__author__ = 'jmadison'
+
+import fileinput
+from itertools import permutations, islice
+
+
+def test_circular_equivalence(x, y):
+
+    # does x circ== y?
+
+    def sliding_window(a, n):
+        z = (islice(a, i, None) for i in range(n))
+        return list(zip(*z))
+
+    # x_prime = list(chain.from_iterable(repeat(x, 2)))  # double the list.
+    x_prime = x + x  # wow.  wtf was I smoking above.
+
+    for each_window in sliding_window(x_prime, len(x))[:-1]:
+        if each_window == y:
+            return True
+
+    else:
+        return False
+
+
+def gen_circular_permutation_set(n):
+    necklace_array = range(1, n+1)
+    necklace_permutation_set = []  # all permutations that are unique (including our circular uniqueness criteria).
+
+    for p in permutations(necklace_array):
+        # for each permutation of the necklace array, test to see if its circ equivalent
+        # already exists in our final set:
+        for each_perm in necklace_permutation_set:
+            if test_circular_equivalence(each_perm, p):
+                break
+        else:
+            necklace_permutation_set.append(p)
+            if test_prime_connections(p):
+                yield 1
+
+
+def test_prime_connections(candidate):
+    # constraints: 2 <= N <= 18, so max will be 17+18 = 35.
+    # easier & faster than actually testing for primeness in a function here.
+
+    primes = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+
+    for x, y in zip(candidate, candidate[1:]):
+        if x + y not in primes:
+            return False
+
+    if candidate[0] + candidate[-1] not in primes:
+        return False
+
+    return True
+
+
+def main():
+
+    for line in fileinput.input(files='./testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
+
+        # using n, get our unique permutations of 1-n, with testing for circular equivalence being a requirement for
+        # uniqueness.  Once you have those candidates, test to see how many of them fit the criteria of
+        # "prime linking".  Spit out the number of passing candidates.
+
+        line = 7
+
+        print sum(gen_circular_permutation_set(int(line)))
+        break
+
+    print 'done'
+
+
+if __name__ == '__main__':
+    main()
+
+
