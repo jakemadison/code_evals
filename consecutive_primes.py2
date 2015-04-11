@@ -1,7 +1,37 @@
 __author__ = 'jmadison'
 
 import fileinput
-from itertools import permutations, islice
+from itertools import islice
+
+
+# taken straight up from the itertools docs:
+def permutations(pool, n):
+
+    yield pool
+
+    indices = range(n)
+
+    reversed_pool = list(pool[::-1])
+    # print 'reversed pool: ', reversed_pool
+    # print
+
+    while n:
+        for i in reversed(range(n)):
+            reversed_pool[i] -= 1
+            if reversed_pool[i] == 0:
+                indices[i:] = indices[i+1:] + indices[i:i+1]
+                reversed_pool[i] = n - i
+            else:
+                j = reversed_pool[i]
+                indices[i], indices[-j] = indices[-j], indices[i]
+                if pool[indices[0]] == 2:
+                    return
+                yield tuple(pool[i] for i in indices[:n])
+
+                break
+        else:
+            # print 'all perms done!'
+            return
 
 
 def test_circular_equivalence(x, y):
@@ -24,8 +54,13 @@ def test_circular_equivalence(x, y):
 
 
 def gen_circular_permutation_set(n):
-    necklace_array = range(1, n+1)
-    necklace_prime_connected = [p for p in permutations(necklace_array) if test_prime_connections(p)]
+    necklace_array = tuple(range(1, n+1))
+
+    # instead of straight up permutations, maybe we can come up with some intelligent rules
+    # eg: no even numbers can be next to one another.
+    # if the first and last are even, that's also no good.
+
+    necklace_prime_connected = [p for p in permutations(necklace_array, n) if test_prime_connections(p)]
 
     final_set = []
     for n in necklace_prime_connected:
@@ -76,7 +111,7 @@ def main():
         # uniqueness.  Once you have those candidates, test to see how many of them fit the criteria of
         # "prime linking".  Spit out the number of passing candidates.
 
-        line = 10
+        line = 11
         print gen_circular_permutation_set(int(line))
         break
 
@@ -85,5 +120,9 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # for ii, pp in enumerate(permutations(tuple(range(1, 4+1)), 4)):
+    #     print ii+1, ('-'*5)+'>', pp
+    #     if ii == 2:
+    #         pass
 
 
