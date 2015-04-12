@@ -3,33 +3,45 @@ __author__ = 'jmadison'
 import fileinput
 from itertools import islice, permutations, chain, izip
 
-#
-# def gen_selective_permutations(n):
-#     for i in permutations(range(1, n+1)):
-#         if i[0] == 2:
-#             raise StopIteration
-#         yield i
-#
-# #
-# def test_circular_equivalence(x, y):
-#
-#     # does x circ== y?
-#
-#     def sliding_window(a, n):
-#         z = (islice(a, i, None) for i in range(n))
-#         return list(zip(*z))
-#
-#     # x_prime = list(chain.from_iterable(repeat(x, 2)))  # double the list.
-#     x_prime = x + x  # wow.  wtf was I smoking above.
-#
-#     for each_window in sliding_window(x_prime, len(x))[:-1]:
-#         if each_window == y:
-#             return True
-#
-#     else:
-#         return False
 
-# @profile
+def build_necklace_matrix(n):
+
+    matrix = [[0 for x in range(n)] for x in range(n)]
+
+    for i, e_x in enumerate(matrix):
+        for ii, e_y in enumerate(matrix[i]):
+            if ((i+1) + (ii+1)) in prime_set:
+                matrix[ii][i] = 1  # 1 indicates that the two can be neighbours.
+
+    # for row in matrix:
+    #     print row
+
+    return matrix
+
+
+def traverse_necklace_matrix(start=1, current_point=1, previous_node=None, path=[], target_len=4):
+
+    # print 'traversing....cn {}, pn {}\t\t'.format(current_point, previous_node),
+    path = path + [current_point]
+
+    if len(path) > 1 and current_point == start:
+        if len(path) == target_len+1:
+            trials.append(path)
+        # print 'the end is the beginning! path trials: {}\n'.format(trials)
+        return path
+
+    possible_moves = ([i+1 for i, e in enumerate(m[current_point-1])
+                       if e == 1 and i+1 != previous_node and i+1 < target_len+1 and (i+1 == start or i+1 not in path)])
+
+    # print 'i am: {}, my friends are: {}, my path is: {}'.format(current_point, possible_moves, path)
+
+    for each_move in possible_moves:
+        traverse_necklace_matrix(current_point=each_move, previous_node=current_point, path=path, target_len=target_len)
+
+    return path
+
+
+
 def gen_circular_permutation_set(n):
 
     # there must be only so many neighbours a number can have to be a prime under x??
@@ -76,7 +88,6 @@ def gen_circular_permutation_set(n):
     return valid_perms
 
 
-# @profile
 def test_prime_connections(candidate):
 
     for i, x in enumerate(candidate):
@@ -86,13 +97,6 @@ def test_prime_connections(candidate):
         except IndexError:
             if x + candidate[0] not in prime_set:
                 return False
-    #
-    # for x, y in zip(candidate, candidate[1:]):
-    #     if x + y not in primes:
-    #         return False
-    #
-    # if candidate[0] + candidate[-1] not in primes:
-    #     return False
 
     return True
 
@@ -129,14 +133,39 @@ if __name__ == '__main__':
     # easier & faster than actually testing for primeness in a function here.
     primes = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
     prime_set = set(primes)  # set lookup slightly more perf.
-    main()
-    #
-    # for ii in gen_selective_permutations(3):
-    #     print ii
+    # main()
+#
+    # paths = []
+    trials = []
+    num = 4
+    m = build_necklace_matrix(18)
 
-    # for ii, pp in enumerate(permutations(tuple(range(1, 4+1)), 4)):
-    #     print ii+1, ('-'*5)+'>', pp
-    #     if ii == 2:
-    #         break
+    for line in fileinput.input(files='./testfile'):
+    # for line in fileinput.input():
+        line = line.strip()
+        if not line:
+            continue
 
+        n = int(line)
 
+        # print 'testing: {}'.format(n)
+
+        # if n % 2 != 0:  # only even numbers of n will work.  otherwise, two odds or two evens
+        #                 # will end up next to each other on the necklace.
+        #     print 0
+        #     continue
+
+        if n == 2:
+            print 1  # this is a bit hacky... code above should test for len instead of start == end condition.. maybe.
+            continue  # but for now because prev node and start node are the same for a set of 2... screw it.
+
+        n = 17
+        traverse_necklace_matrix(target_len=n)
+
+        # print
+        # for t in trials:
+        #     print t
+
+        print 'final: n: {}, res: {}'.format(n, len(trials))
+        trials = []
+        break
