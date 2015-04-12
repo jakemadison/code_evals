@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
         n = int(line)
 
-        n = 18
+        # n = 18
         print 'testing: {}'.format(n)
 
         if n % 2 != 0:  # only even numbers of n will work.  otherwise, two odds or two evens
@@ -204,4 +204,4 @@ if __name__ == '__main__':
         print len(trials)
         # print 'final: n: {}, res: {}'.format(n, len(trials))
         trials = []
-        break
+        # break
