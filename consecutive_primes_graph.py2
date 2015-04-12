@@ -159,7 +159,7 @@ if __name__ == '__main__':
             print 1  # this is a bit hacky... code above should test for len instead of start == end condition.. maybe.
             continue  # but for now because prev node and start node are the same for a set of 2... screw it.
 
-        n = 17
+        n = 18
         traverse_necklace_matrix(target_len=n)
 
         # print
