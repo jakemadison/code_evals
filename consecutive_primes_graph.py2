@@ -19,19 +19,25 @@ def build_necklace_matrix(n):
     return matrix
 
 
+# @profile
 def traverse_necklace_matrix(start=1, current_point=1, previous_node=None, path=[], target_len=4):
 
     # print 'traversing....cn {}, pn {}\t\t'.format(current_point, previous_node),
     path = path + [current_point]
 
-    if len(path) > 1 and current_point == start:
-        if len(path) == target_len+1:
+    curr_path_len = len(path)
+
+    if curr_path_len > 1 and current_point == start:
+        if curr_path_len == target_len+1:
             trials.append(path)
         # print 'the end is the beginning! path trials: {}\n'.format(trials)
         return path
 
-    possible_moves = ([i+1 for i, e in enumerate(m[current_point-1])
-                       if e == 1 and i+1 != previous_node and i+1 < target_len+1 and (i+1 == start or i+1 not in path)])
+    possible_moves = ([elem for elem in all_moves_dict[current_point]
+                       if elem <= target_len and elem != previous_node and (elem == start or elem not in path)])
+
+# possible_moves = ([i+1 for i, e in enumerate(m[current_point-1])
+#                    if e == 1 and i+1 != previous_node and i+1 < target_len+1 and (i+1 == start or i+1 not in path)])
 
     # print 'i am: {}, my friends are: {}, my path is: {}'.format(current_point, possible_moves, path)
 
@@ -128,17 +134,35 @@ def main():
     # print 'done'
 
 
+def generate_all_moves_dict():
+
+    moves_dict = {}
+    for i, each_row in enumerate(m):
+        moves_dict[i+1] = [ii+1 for ii, x in enumerate(each_row) if x == 1]
+    return moves_dict
+
+
 if __name__ == '__main__':
     # constraints: 2 <= N <= 18, so max will be 17+18 = 35.
     # easier & faster than actually testing for primeness in a function here.
     primes = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
     prime_set = set(primes)  # set lookup slightly more perf.
     # main()
-#
+    # possible_moves_dict = {}
     # paths = []
     trials = []
     num = 4
-    m = build_necklace_matrix(18)
+    m = build_necklace_matrix(18)  # was 18
+    all_moves_dict = generate_all_moves_dict()
+
+    # for e in m:
+    #     print e
+
+    # for k, v in all_moves_dict.iteritems():
+    #     print k, '->', v
+
+    # import sys
+    # sys.exit(0)
 
     for line in fileinput.input(files='./testfile'):
     # for line in fileinput.input():
@@ -148,12 +172,12 @@ if __name__ == '__main__':
 
         n = int(line)
 
-        # print 'testing: {}'.format(n)
+        print 'testing: {}'.format(n)
 
-        # if n % 2 != 0:  # only even numbers of n will work.  otherwise, two odds or two evens
-        #                 # will end up next to each other on the necklace.
-        #     print 0
-        #     continue
+        if n % 2 != 0:  # only even numbers of n will work.  otherwise, two odds or two evens
+                        # will end up next to each other on the necklace.
+            print 0
+            continue
 
         if n == 2:
             print 1  # this is a bit hacky... code above should test for len instead of start == end condition.. maybe.
@@ -165,7 +189,7 @@ if __name__ == '__main__':
         # print
         # for t in trials:
         #     print t
-
+        # print len(trials)
         print 'final: n: {}, res: {}'.format(n, len(trials))
         trials = []
         break
