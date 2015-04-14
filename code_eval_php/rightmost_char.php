@@ -16,7 +16,10 @@ foreach ($line_array as $line) {
 
     $position = strrpos($string, $char);
 
-    if ($position) {
+    if ($position === false) {
+        echo "-1\n";
+    }
+    else {
         echo "$position\n";
     };
 
