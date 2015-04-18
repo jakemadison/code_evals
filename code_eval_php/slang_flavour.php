@@ -7,7 +7,7 @@
  */
 
 $input_file = fopen($argv[1], "r");
-$line_array = explode("\n", fread($input_file, filesize($argv[1])));
+$char_array = str_split(fread($input_file, filesize($argv[1])));
 fclose($input_file);
 
 $slang_array = array(
@@ -26,26 +26,20 @@ $punctuation_array = array('.','!','?');
 $every_other_flag = false;
 $slang_index = 0;
 
-foreach ($line_array as $line) {
+foreach ($char_array as $char) {
 
-    $char_array = str_split($line);
+    if (in_array($char, $punctuation_array)) {
 
-    foreach ($char_array as $char) {
+        if ($every_other_flag) {
+            echo $slang_array[$slang_index];
+            $slang_index = ($slang_index<sizeof($slang_array) ? ++$slang_index : 0);
+            $every_other_flag = false;
 
-        if (in_array($char, $punctuation_array)) {
-
-            if ($every_other_flag) {
-                echo $slang_array[$slang_index];
-                $slang_index = ($slang_index<sizeof($slang_array) ? ++$slang_index : 0);
-                $every_other_flag = false;
-
-            } else {
-                echo $char;
-                $every_other_flag = true;
-            }
         } else {
             echo $char;
+            $every_other_flag = true;
         }
+    } else {
+        echo $char;
     }
-    echo "\n";
 }
