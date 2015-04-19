@@ -1,0 +1,30 @@
+
+__author__ = 'jmadison'
+
+import fileinput
+
+
+def is_self_describing(line):
+
+    for index, each_character in enumerate(line):
+        char_count = line.count(str(index))
+
+        if str(char_count) != each_character:
+            return 0
+
+    return 1
+
+
+def main():
+
+    for line in fileinput.input():
+    # for line in fileinput.input(files='./testfile'):
+        line = line.strip()
+        if not line:
+            continue
+
+        print is_self_describing(line)
+
+
+if __name__ == '__main__':
+    main()
