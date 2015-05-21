@@ -17,6 +17,24 @@ def fizzbuzz(n, fizz=3, buzz=5):
     return n
 
 
+def fizzbuzz2(n, fizz=3, buzz=5):
+
+    if fizz != buzz:
+        if n % (fizz*buzz):
+            return 'FB'
+    else:
+        if n % fizz:
+            return 'FB'
+
+    if n % fizz == 0:
+        return 'F'
+
+    if n % buzz == 0:
+        return 'B'
+
+
+
+
 def main():
     for line in fileinput.input():
 
