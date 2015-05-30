@@ -4,7 +4,6 @@
  * User: Madison
  * Date: 15-05-28
  * Time: 9:49 PM
- * hmmm.
  */
 
 
@@ -15,7 +14,9 @@ fclose($input_file);
 
 foreach ($line_array as $line) {
 
-    print hexdec($line);
+    $hex = hexdec($line);
+    echo $hex;
     echo "\n";
+
 
 }
